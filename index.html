@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#1F2937">
+    <meta property="og:title" content="NeurophiX AI: NeuroX - أقوى نموذج ذكاء اصطناعي يتفوق على المنافسين">
+    <meta property="og:description" content="اكتشف NeuroX من NeurophiX AI، أقوى نموذج ذكاء اصطناعي في العالم يتفوق على Claude 3.5 و ChatGPT.">
+    <meta property="og:image" content="https://i.imgur.com/IQ7M1YF.png">
+    <meta property="og:url" content="https://neurophix.ai">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="description" content="اكتشف NeuroX من NeurophiX AI، أقوى نموذج ذكاء اصطناعي في العالم يتفوق على Claude 3.5 و ChatGPT. انضم إلى قائمة الانتظار للحصول على وصول مبكر إلى تقنية الذكاء الاصطناعي المتطورة.">
+    <meta name="keywords" content="NeurophiX AI, NeuroX, ذكاء اصطناعي متطور, مقارنة AI, Claude 3.5, ChatGPT, تقنية المستقبل, نموذج لغوي كبير, LLM, قائمة انتظار NeuroX">
+    <meta name="author" content="NeurophiX Team">
+    <title>NeurophiX AI: NeuroX - أقوى نموذج ذكاء اصطناعي يتفوق على المنافسين</title>
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/9626/9626716.png" sizes="any" type="image/png">
+    <script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-firestore-compat.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- إضافة ملف متغيرات البيئة -->
+    <script src="env.js"></script>
+    <!-- إضافة ملف تكوين Firebase -->
+    <script src="firebase-config.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="font-sans transition-colors duration-300 dark:bg-gray-900 dark:text-white bg-gray-50 text-gray-800">
+    <!-- Header - الهيدر -->
+    <header class="fixed top-0 w-full shadow-lg z-50 transition-colors duration-300 dark:bg-gray-900 dark:bg-opacity-90 bg-white bg-opacity-90">
+        <div class="container mx-auto flex justify-between items-center py-4 px-6">
+            <div class="flex items-center">
+                <!-- زر القائمة المحمولة - يظهر فقط في الهواتف -->
+                <button id="mobileMenuBtn" class="md:hidden flex justify-center items-center w-10 h-10 rounded-lg bg-black/20 backdrop-blur-sm text-black dark:text-white border border-gray-600/30 shadow-lg hover:bg-black/30 transition ml-2">
+                    <span class="w-5 h-0.5 bg-current absolute transform transition-all duration-300"></span>
+                    <span class="w-5 h-0.5 bg-current transform transition-all duration-300"></span>
+                    <span class="w-5 h-0.5 bg-current transform transition-all duration-300"></span>
+                </button>
+                
+                <!-- الشعار -->
+                <a href="#" class="flex items-center">
+                    <img src="https://cdn-icons-png.flaticon.com/512/9626/9626716.png" alt="NeurophiX Logo" class="w-8 h-8 md:w-8 md:h-8 w-6 h-6 mr-1 md:mr-2">
+                    <h1 class="text-2xl md:text-3xl font-bold transition-colors duration-300 dark:text-blue-400 text-blue-600">NeurophiX <span class="hidden xs:inline">AI</span></h1>
+                </a>
+            </div>
+            
+            <div class="flex items-center space-x-4 space-x-reverse">
+                <!-- Theme toggle button - يظهر فقط في الشاشات المتوسطة والكبيرة -->
+                <button id="themeToggle" class="hidden md:flex p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-300 relative overflow-hidden group">
+                    <!-- Dark mode icon (sun) -->
+                    <svg id="darkIcon" class="w-6 h-6 hidden dark:block text-amber-400 transform transition-transform duration-500 ease-in-out group-hover:rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="5" fill="currentColor" stroke="none"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                    </svg>
+                    
+                    <!-- Light mode icon (moon) -->
+                    <svg id="lightIcon" class="w-6 h-6 dark:hidden text-blue-600 transform transition-transform duration-500 ease-in-out group-hover:-rotate-12" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="currentColor" d="M17.75 4.09l-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3 3.19.09m3.5 6.91l-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95 2.06.05m-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 008.02 2.89m-1.64 2.02a12.08 12.08 0 01-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31z"/>
+                    </svg>
+                </button>
+                <nav class="hidden md:flex items-center space-x-6 space-x-reverse">
+                    <a href="#features" class="transition-colors duration-300 dark:text-gray-300 text-gray-700 hover:text-blue-500 dark:hover:text-blue-400">المميزات</a>
+                    <a href="#comparison" class="transition-colors duration-300 dark:text-gray-300 text-gray-700 hover:text-blue-500 dark:hover:text-blue-400">المقارنة</a>
+                    <a href="#how-it-works" class="transition-colors duration-300 dark:text-gray-300 text-gray-700 hover:text-blue-500 dark:hover:text-blue-400">كيف يعمل</a>
+                    <a href="#faq" class="transition-colors duration-300 dark:text-gray-300 text-gray-700 hover:text-blue-500 dark:hover:text-blue-400">الأسئلة الشائعة</a>
+                </nav>
+                <div id="authContainer" class="flex items-center space-x-reverse space-x-2">
+                    <!-- العناصر عندما يكون المستخدم غير مسجل الدخول -->
+                    <div class="auth-buttons">
+                        <button id="loginBtn" class="flex items-center justify-center px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg dark:text-blue-300 text-blue-600 dark:hover:bg-gray-700 hover:bg-gray-100 border-2 dark:border-blue-500/40 border-blue-400/40 group ml-2">
+                            <svg class="w-4 h-4 ml-1.5 transition-transform duration-300 group-hover:translate-x-[-2px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14"></path>
+                            </svg>
+                            <span>تسجيل الدخول</span>
+                        </button>
+                        <button id="signupBtn" class="flex items-center justify-center px-4 py-2 text-sm font-medium transition-all duration-300 bg-gradient-to-r dark:from-blue-600 dark:to-blue-500 from-blue-500 to-blue-600 text-white rounded-lg hover:shadow-lg hover:scale-105">
+                            <span>إنشاء حساب</span>
+                            <svg class="w-4 h-4 mr-1.5 transition-transform duration-300 group-hover:translate-x-[2px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <!-- العناصر عندما يكون المستخدم مسجل الدخول (زر لوحة التحكم وتسجيل الخروج) -->
+                    <div class="auth-buttons-logged-in hidden">
+                        <a href="dashboard-simple.html" class="flex items-center justify-center px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg bg-gradient-to-r dark:from-blue-600 dark:to-blue-500 from-blue-500 to-blue-600 text-white hover:shadow-lg hover:scale-105 ml-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2z" />
+                            </svg>
+                            <span>لوحة التحكم</span>
+                        </a>
+                        <button id="logoutHeaderBtn" class="flex items-center justify-center px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg dark:text-red-300 text-red-600 dark:hover:bg-gray-700 hover:bg-gray-100 border-2 dark:border-red-500/40 border-red-400/40 group">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1.5 transition-transform duration-300 group-hover:translate-x-[-2px]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                            </svg>
+                            <span>تسجيل الخروج</span>
+                        </button>
+                    </div>
+                    
+                    <!-- العناصر عندما يكون المستخدم مسجل الدخول -->
+                    <div class="user-profile hidden relative ml-4">
+                        <button id="profileButton" class="flex items-center space-x-2 space-x-reverse px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-indigo-600 text-white hover:shadow-lg transition-all duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                            </svg>
+                            <span id="userName" class="text-sm font-medium">مستخدم</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        
+                        <!-- قائمة منسدلة للمستخدم -->
+                        <div id="userDropdown" class="hidden absolute top-full right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden z-50 border border-gray-200 dark:border-gray-700">
+                            <a href="dashboard-simple.html" class="block px-4 py-3 hover:bg-blue-50 dark:hover:bg-blue-900/20 dark:text-gray-200 text-gray-700 transition-colors duration-300 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2z" />
+                                </svg>
+                                <span>لوحة التحكم</span>
+                            </a>
+                            <hr class="my-1 border-gray-200 dark:border-gray-700">
+                            <button id="logoutButton" class="w-full text-right px-4 py-3 hover:bg-red-50 dark:hover:bg-red-900/20 text-red-600 dark:text-red-400 transition-colors duration-300 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                </svg>
+                                <span>تسجيل الخروج</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- القائمة المحمولة - تظهر كقائمة منسدلة -->
+    <div id="mobileMenu" class="hidden fixed inset-0 md:hidden z-40">
+        <!-- طبقة الخلفية المعتمة -->
+        <div id="menuOverlay" class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+        
+        <!-- محتوى القائمة -->
+        <div id="menuContent" class="absolute right-0 top-0 h-full w-64 bg-white dark:bg-gray-900 shadow-xl flex flex-col transform transition-all duration-300 opacity-0">
+            <!-- رأس القائمة -->
+            <div class="p-6 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+                <h2 class="text-lg font-semibold text-gray-800 dark:text-white">القائمة</h2>
+                <button id="closeMenuBtn" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- روابط التنقل -->
+            <nav class="flex-1 overflow-y-auto p-6">
+                <ul class="space-y-4">
+                    <li>
+                        <a href="#features" class="block py-3 px-4 text-gray-800 dark:text-white hover:bg-blue-100 dark:hover:bg-blue-900/20 rounded-lg transition text-right">
+                            المميزات
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#comparison" class="block py-3 px-4 text-gray-800 dark:text-white hover:bg-blue-100 dark:hover:bg-blue-900/20 rounded-lg transition text-right">
+                            المقارنة
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#how-it-works" class="block py-3 px-4 text-gray-800 dark:text-white hover:bg-blue-100 dark:hover:bg-blue-900/20 rounded-lg transition text-right">
+                            كيف يعمل؟
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#faq" class="block py-3 px-4 text-gray-800 dark:text-white hover:bg-blue-100 dark:hover:bg-blue-900/20 rounded-lg transition text-right">
+                            الأسئلة الشائعة
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <!-- زر تبديل الثيم -->
+            <div class="p-6 border-t border-gray-200 dark:border-gray-700">
+                <div class="flex items-center justify-between">
+                    <span class="text-gray-800 dark:text-white">تبديل الثيم</span>
+                    <button id="mobileThemeToggle" class="w-12 h-6 rounded-full bg-gray-300 dark:bg-gray-700 relative transition-colors duration-300 focus:outline-none">
+                        <span class="block w-4 h-4 rounded-full bg-white absolute top-1 left-1 dark:left-7 transition-transform duration-300"></span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- حاوية أزرار تسجيل الدخول/الخروج (ستتغير ديناميكياً عبر JavaScript) -->
+            <div id="mobileAuthContainer" class="p-6 border-t border-gray-200 dark:border-gray-700">
+                <!-- سيتم ملء هذا القسم ديناميكياً عبر JavaScript بناءً على حالة تسجيل الدخول -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section - قسم البداية -->
+    <section class="pt-32 pb-20 transition-colors duration-300 dark:bg-gradient-to-b dark:from-gray-900 dark:to-gray-800 bg-gradient-to-b from-blue-50 to-white">
+        <div class="container mx-auto px-6 flex flex-col lg:flex-row items-center">
+            <div class="w-full lg:w-1/2 text-center lg:text-right">
+                <h2 class="text-4xl md:text-5xl font-bold mb-8 animate-fade-in-up transition-colors duration-300 dark:text-white text-gray-800">اكتشف قوة <span class="transition-colors duration-300 dark:text-blue-400 text-blue-600">NeuroX</span></h2>
+                <p class="text-xl transition-colors duration-300 dark:text-gray-300 text-gray-600 mb-12 max-w-3xl mx-auto lg:mx-0 animation-delay-200 animate-fade-in-up">أقوى نموذج ذكاء اصطناعي في العالم، يتفوق على Claude 3.5 و ChatGPT في الأداء والقدرات.</p>
+                <div class="flex flex-col sm:flex-row justify-center lg:justify-start space-y-4 sm:space-y-0 space-x-0 sm:space-x-6 sm:space-x-reverse">
+                    <button id="mainSignupBtn" class="transition-colors duration-300 dark:bg-blue-500 bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 dark:hover:bg-blue-600 transform hover:scale-105 btn-hover-effect auth-button">ابدأ الآن مجاناً</button>
+                    <button id="learnMoreBtn" class="transition-colors duration-300 dark:bg-gray-700 bg-gray-200 dark:text-white text-gray-800 px-8 py-3 rounded-full hover:bg-gray-300 dark:hover:bg-gray-600 transform hover:scale-105 btn-hover-effect">تعرف أكثر</button>
+                </div>
+            </div>
+
+            <!-- Beta Testing Info Card -->
+            <div id="betaInfoCard" class="info-card">
+                <button id="closeBetaInfo" class="close-button">&times;</button>
+                <div class="beta-info-content">
+                    <h3>NeuroX - في مرحلة التجربة</h3>
+                    <p>نموذج الذكاء الاصطناعي NeuroX حالياً في مرحلة الاختبار المغلقة. أنشئ حساباً أو سجل دخولك للوصول المبكر والحصول على تحديثات حول إصدارنا القادم.</p>
+                </div>
+                <div id="betaInfoButtons" class="beta-info-buttons">
+                    <!-- سيتم إضافة الأزرار ديناميكياً بواسطة JavaScript -->
+                </div>
+            </div>
+            <div id="betaInfoOverlay" class="info-card-overlay"></div>
+            <!-- End Beta Testing Info Card -->
+        </div>
+    </section>
+
+    <!-- Trusted by Section - قسم الموثوق به -->
+    <section class="py-16 transition-colors duration-300 dark:bg-gray-900 bg-gray-100">
+        <div class="container mx-auto px-6">
+            <h3 class="text-xl font-medium text-center mb-12 transition-colors duration-300 dark:text-gray-400 text-gray-600">يثق به رواد الصناعة والمؤسسات الرائدة</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 items-center justify-items-center">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/1200px-Google_2015_logo.svg.png" alt="Google" class="h-8 md:h-10 dark:opacity-70 opacity-50 hover:opacity-100 transition-opacity duration-300">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png" alt="Microsoft" class="h-8 md:h-10 dark:opacity-70 opacity-50 hover:opacity-100 transition-opacity duration-300">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/1667px-Apple_logo_black.svg.png" alt="Apple" class="h-8 md:h-10 dark:opacity-70 opacity-50 hover:opacity-100 transition-opacity duration-300">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/IBM_logo.svg/2560px-IBM_logo.svg.png" alt="IBM" class="h-8 md:h-10 dark:opacity-70 opacity-50 hover:opacity-100 transition-opacity duration-300">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/2560px-Amazon_logo.svg.png" alt="Amazon" class="h-8 md:h-10 dark:opacity-70 opacity-50 hover:opacity-100 transition-opacity duration-300">
+                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/0/04/Facebook_f_logo_%282021%29.svg/2048px-Facebook_f_logo_%282021%29.svg.png" alt="Meta" class="h-8 md:h-10 dark:opacity-70 opacity-50 hover:opacity-100 transition-opacity duration-300">
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section - قسم الإحصائيات -->
+    <section class="py-20 transition-colors duration-300 dark:bg-gray-800 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <h3 class="text-4xl font-bold transition-colors duration-300 dark:text-blue-400 text-blue-600 mb-2" id="statNumber1">2T+</h3>
+                    <p class="text-lg transition-colors duration-300 dark:text-gray-300 text-gray-700">نقاط بيانات التدريب</p>
+                </div>
+                <div class="text-center">
+                    <h3 class="text-4xl font-bold transition-colors duration-300 dark:text-blue-400 text-blue-600 mb-2" id="statNumber2">93.2%</h3>
+                    <p class="text-lg transition-colors duration-300 dark:text-gray-300 text-gray-700">دقة MMLU</p>
+                </div>
+                <div class="text-center">
+                    <h3 class="text-4xl font-bold transition-colors duration-300 dark:text-blue-400 text-blue-600 mb-2" id="statNumber3">99.8%</h3>
+                    <p class="text-lg transition-colors duration-300 dark:text-gray-300 text-gray-700">دقة اللغة العربية</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Model Comparison Table Section - قسم مقارنة النماذج -->
+    <section id="comparison" class="py-20 transition-colors duration-300 dark:bg-gray-900 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h3 class="text-3xl font-bold mb-4 transition-colors duration-300 dark:text-white text-gray-800">مقارنة شاملة لنماذج الذكاء الاصطناعي</h3>
+                <p class="text-lg max-w-3xl mx-auto transition-colors duration-300 dark:text-gray-300 text-gray-600">اكتشف كيف يتفوق نموذج NeuroX على جميع نماذج الذكاء الاصطناعي الأخرى في مختلف المقاييس واختبارات الأداء.</p>
+            </div>
+            <div class="w-full overflow-x-auto transition-colors duration-300 dark:bg-gray-700 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 p-6">
+                <table class="min-w-full table-auto border-collapse">
+                    <thead>
+                        <tr class="transition-colors duration-300 dark:bg-gray-800 bg-gray-100 dark:text-blue-400 text-blue-600">
+                            <th class="px-6 py-4 text-right border-b transition-colors duration-300 dark:border-gray-600 border-gray-200">المقياس</th>
+                            <th class="px-6 py-4 text-right border-b transition-colors duration-300 dark:border-gray-600 border-gray-200">NeuroX</th>
+                            <th class="px-6 py-4 text-right border-b transition-colors duration-300 dark:border-gray-600 border-gray-200">NeuroX Pro</th>
+                            <th class="px-6 py-4 text-right border-b transition-colors duration-300 dark:border-gray-600 border-gray-200">Claude-3.5</th>
+                            <th class="px-6 py-4 text-right border-b transition-colors duration-300 dark:border-gray-600 border-gray-200">GPT-4</th>
+                            <th class="px-6 py-4 text-right border-b transition-colors duration-300 dark:border-gray-600 border-gray-200">Llama3.1</th>
+                        </tr>
+                    </thead>
+                    <tbody class="transition-colors duration-300 dark:text-gray-300 text-gray-700">
+                        <!-- ... existing table data remains the same ... -->
+                        <tr class="hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+                            <td class="px-6 py-4 border-b transition-colors duration-300 dark:border-gray-600 border-gray-200 font-bold">MMLU (EM)</td>
+                            <td class="px-6 py-4 border-b transition-colors duration-300 dark:border-gray-600 border-gray-200 dark:text-blue-400 text-blue-600 font-bold">91.5%</td>
+                            <td class="px-6 py-4 border-b transition-colors duration-300 dark:border-gray-600 border-gray-200 dark:text-blue-400 text-blue-600 font-bold">93.2%</td>
+                            <td class="px-6 py-4 border-b transition-colors duration-300 dark:border-gray-600 border-gray-200">88.3%</td>
+                            <td class="px-6 py-4 border-b transition-colors duration-300 dark:border-gray-600 border-gray-200">87.2%</td>
+                            <td class="px-6 py-4 border-b transition-colors duration-300 dark:border-gray-600 border-gray-200">88.6%</td>
+                        </tr>
+                        <tr class="hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+                            <td class="px-6 py-4 border-b transition-colors duration-300 dark:border-gray-600 border-gray-200 font-bold">MMLU-Pro (EM)</td>
+                            <td class="px-6 py-4 border-b transition-colors duration-300 dark:border-gray-600 border-gray-200 dark:text-blue-400 text-blue-600 font-bold">82.5%</td>
+                            <td class="px-6 py-4 border-b transition-colors duration-300 dark:border-gray-600 border-gray-200 dark:text-blue-400 text-blue-600 font-bold">85.1%</td>
+                            <td class="px-6 py-4 border-b transition-colors duration-300 dark:border-gray-600 border-gray-200">78.0%</td>
+                            <td class="px-6 py-4 border-b transition-colors duration-300 dark:border-gray-600 border-gray-200">72.6%</td>
+                            <td class="px-6 py-4 border-b transition-colors duration-300 dark:border-gray-600 border-gray-200">73.3%</td>
+                        </tr>
+                        <tr class="hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+                            <td class="px-6 py-4 border-b transition-colors duration-300 dark:border-gray-600 border-gray-200 font-bold">HumanEval-Mul</td>
+                            <td class="px-6 py-4 border-b transition-colors duration-300 dark:border-gray-600 border-gray-200 dark:text-blue-400 text-blue-600 font-bold">86.8%</td>
+                            <td class="px-6 py-4 border-b transition-colors duration-300 dark:border-gray-600 border-gray-200 dark:text-blue-400 text-blue-600 font-bold">89.2%</td>
+                            <td class="px-6 py-4 border-b transition-colors duration-300 dark:border-gray-600 border-gray-200">81.7%</td>
+                            <td class="px-6 py-4 border-b transition-colors duration-300 dark:border-gray-600 border-gray-200">80.5%</td>
+                            <td class="px-6 py-4 border-b transition-colors duration-300 dark:border-gray-600 border-gray-200">77.2%</td>
+                        </tr>
+                        <tr class="hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+                            <td class="px-6 py-4 border-b transition-colors duration-300 dark:border-gray-600 border-gray-200 font-bold">MATH-500 (EM)</td>
+                            <td class="px-6 py-4 border-b transition-colors duration-300 dark:border-gray-600 border-gray-200 dark:text-blue-400 text-blue-600 font-bold">93.5%</td>
+                            <td class="px-6 py-4 border-b transition-colors duration-300 dark:border-gray-600 border-gray-200 dark:text-blue-400 text-blue-600 font-bold">95.8%</td>
+                            <td class="px-6 py-4 border-b transition-colors duration-300 dark:border-gray-600 border-gray-200">78.3%</td>
+                            <td class="px-6 py-4 border-b transition-colors duration-300 dark:border-gray-600 border-gray-200">74.6%</td>
+                            <td class="px-6 py-4 border-b transition-colors duration-300 dark:border-gray-600 border-gray-200">73.8%</td>
+                        </tr>
+                        <tr class="hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+                            <td class="px-6 py-4 border-b transition-colors duration-300 dark:border-gray-600 border-gray-200 font-bold">C-Eval (EM)</td>
+                            <td class="px-6 py-4 border-b transition-colors duration-300 dark:border-gray-600 border-gray-200 dark:text-blue-400 text-blue-600 font-bold">89.5%</td>
+                            <td class="px-6 py-4 border-b transition-colors duration-300 dark:border-gray-600 border-gray-200 dark:text-blue-400 text-blue-600 font-bold">92.3%</td>
+                            <td class="px-6 py-4 border-b transition-colors duration-300 dark:border-gray-600 border-gray-200">76.7%</td>
+                            <td class="px-6 py-4 border-b transition-colors duration-300 dark:border-gray-600 border-gray-200">76.0%</td>
+                            <td class="px-6 py-4 border-b transition-colors duration-300 dark:border-gray-600 border-gray-200">61.5%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section - قسم المميزات -->
+    <section id="features" class="py-20 transition-colors duration-300 dark:bg-gray-800 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h3 class="text-3xl font-bold mb-4 transition-colors duration-300 dark:text-white text-gray-800">مميزات فريدة</h3>
+                <p class="text-lg max-w-3xl mx-auto transition-colors duration-300 dark:text-gray-300 text-gray-600">يقدم NeuroX مجموعة من المميزات المتقدمة التي تجعله الخيار الأمثل لجميع احتياجات الذكاء الاصطناعي.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="transition-colors duration-300 dark:bg-gray-700 bg-gray-50 p-8 rounded-xl shadow-lg card-hover-effect relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-16 h-16 transition-colors duration-300 dark:bg-blue-500 bg-blue-600 opacity-10 rounded-bl-full"></div>
+                    <div class="text-center md:text-right">
+                        <div class="inline-block p-3 mb-4 rounded-full transition-colors duration-300 dark:bg-blue-500/10 bg-blue-100">
+                            <i class="fas fa-brain text-2xl transition-colors duration-300 dark:text-blue-400 text-blue-600"></i>
+                        </div>
+                        <h4 class="text-xl font-semibold mb-4 transition-colors duration-300 dark:text-blue-400 text-blue-600">ذكاء متقدم</h4>
+                        <p class="transition-colors duration-300 dark:text-gray-300 text-gray-600">يتفوق على جميع نماذج الذكاء الاصطناعي الحالية في المهام المعقدة، مع إمكانية معالجة وفهم المشكلات متعددة الأبعاد.</p>
+                    </div>
+                </div>
+                <div class="transition-colors duration-300 dark:bg-gray-700 bg-gray-50 p-8 rounded-xl shadow-lg card-hover-effect relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-16 h-16 transition-colors duration-300 dark:bg-blue-500 bg-blue-600 opacity-10 rounded-bl-full"></div>
+                    <div class="text-center md:text-right">
+                        <div class="inline-block p-3 mb-4 rounded-full transition-colors duration-300 dark:bg-blue-500/10 bg-blue-100">
+                            <i class="fas fa-lightbulb text-2xl transition-colors duration-300 dark:text-blue-400 text-blue-600"></i>
+                        </div>
+                        <h4 class="text-xl font-semibold mb-4 transition-colors duration-300 dark:text-blue-400 text-blue-600">فهم عميق</h4>
+                        <p class="transition-colors duration-300 dark:text-gray-300 text-gray-600">قدرة استثنائية على فهم السياق وإنتاج محتوى عالي الجودة، مع مراعاة الدقة والنوانس اللغوية.</p>
+                    </div>
+                </div>
+                <div class="transition-colors duration-300 dark:bg-gray-700 bg-gray-50 p-8 rounded-xl shadow-lg card-hover-effect relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-16 h-16 transition-colors duration-300 dark:bg-blue-500 bg-blue-600 opacity-10 rounded-bl-full"></div>
+                    <div class="text-center md:text-right">
+                        <div class="inline-block p-3 mb-4 rounded-full transition-colors duration-300 dark:bg-blue-500/10 bg-blue-100">
+                            <i class="fas fa-sliders-h text-2xl transition-colors duration-300 dark:text-blue-400 text-blue-600"></i>
+                        </div>
+                        <h4 class="text-xl font-semibold mb-4 transition-colors duration-300 dark:text-blue-400 text-blue-600">تخصيص متقدم</h4>
+                        <p class="transition-colors duration-300 dark:text-gray-300 text-gray-600">إمكانية تخصيص النموذج حسب احتياجاتك الخاصة، مع واجهة سهلة الاستخدام تتيح لك التحكم الكامل في سلوك النموذج.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Additional Features Row -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
+                <div class="transition-colors duration-300 dark:bg-gray-700 bg-gray-50 p-8 rounded-xl shadow-lg card-hover-effect relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-16 h-16 transition-colors duration-300 dark:bg-blue-500 bg-blue-600 opacity-10 rounded-bl-full"></div>
+                    <div class="text-center md:text-right">
+                        <div class="inline-block p-3 mb-4 rounded-full transition-colors duration-300 dark:bg-blue-500/10 bg-blue-100">
+                            <i class="fas fa-globe text-2xl transition-colors duration-300 dark:text-blue-400 text-blue-600"></i>
+                        </div>
+                        <h4 class="text-xl font-semibold mb-4 transition-colors duration-300 dark:text-blue-400 text-blue-600">دعم متعدد اللغات</h4>
+                        <p class="transition-colors duration-300 dark:text-gray-300 text-gray-600">يتميز NeuroX بدعم كامل للغة العربية وأكثر من 100 لغة أخرى، مع فهم عميق للسياقات الثقافية لكل لغة.</p>
+                    </div>
+                </div>
+                <div class="transition-colors duration-300 dark:bg-gray-700 bg-gray-50 p-8 rounded-xl shadow-lg card-hover-effect relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-16 h-16 transition-colors duration-300 dark:bg-blue-500 bg-blue-600 opacity-10 rounded-bl-full"></div>
+                    <div class="text-center md:text-right">
+                        <div class="inline-block p-3 mb-4 rounded-full transition-colors duration-300 dark:bg-blue-500/10 bg-blue-100">
+                            <i class="fas fa-bolt text-2xl transition-colors duration-300 dark:text-blue-400 text-blue-600"></i>
+                        </div>
+                        <h4 class="text-xl font-semibold mb-4 transition-colors duration-300 dark:text-blue-400 text-blue-600">سرعة فائقة</h4>
+                        <p class="transition-colors duration-300 dark:text-gray-300 text-gray-600">استجابة فورية وسريعة لجميع الطلبات، حتى مع المهام المعقدة والاستفسارات الطويلة، مما يضمن تجربة مستخدم سلسة.</p>
+                    </div>
+                </div>
+                <div class="transition-colors duration-300 dark:bg-gray-700 bg-gray-50 p-8 rounded-xl shadow-lg card-hover-effect relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-16 h-16 transition-colors duration-300 dark:bg-blue-500 bg-blue-600 opacity-10 rounded-bl-full"></div>
+                    <div class="text-center md:text-right">
+                        <div class="inline-block p-3 mb-4 rounded-full transition-colors duration-300 dark:bg-blue-500/10 bg-blue-100">
+                            <i class="fas fa-shield-alt text-2xl transition-colors duration-300 dark:text-blue-400 text-blue-600"></i>
+                        </div>
+                        <h4 class="text-xl font-semibold mb-4 transition-colors duration-300 dark:text-blue-400 text-blue-600">أمان وخصوصية</h4>
+                        <p class="transition-colors duration-300 dark:text-gray-300 text-gray-600">حماية قصوى لبياناتك مع تشفير من طرف إلى طرف وضمان عدم مشاركة المعلومات أو استخدامها لأغراض التدريب دون موافقتك.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section - قسم كيف يعمل -->
+    <section id="how-it-works" class="py-20 transition-colors duration-300 dark:bg-gray-900 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h3 class="text-3xl font-bold mb-4 transition-colors duration-300 dark:text-white text-gray-800">كيف يعمل NeuroX</h3>
+                <p class="text-lg max-w-3xl mx-auto transition-colors duration-300 dark:text-gray-300 text-gray-600">تعرف على التقنية المتطورة التي تقف وراء نظام NeuroX وكيف يمكنه تحسين أعمالك.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="relative">
+                    <div class="transition-colors duration-300 dark:bg-gray-700 bg-white rounded-xl p-6 shadow-lg text-center">
+                        <div class="w-16 h-16 rounded-full transition-colors duration-300 dark:bg-blue-500 bg-blue-600 flex items-center justify-center mx-auto mb-4">
+                            <span class="text-white font-bold text-xl">1</span>
+                        </div>
+                        <h4 class="text-xl font-semibold mb-3 transition-colors duration-300 dark:text-white text-gray-800">تحليل المدخلات</h4>
+                        <p class="transition-colors duration-300 dark:text-gray-300 text-gray-600">يقوم النموذج بتحليل النص أو البيانات المدخلة باستخدام خوارزميات متقدمة.</p>
+                    </div>
+                    <div class="hidden md:block h-2 w-full md:w-1/2 transition-colors duration-300 dark:bg-blue-500 bg-blue-600 absolute top-1/2 -right-1/4 z-0"></div>
+                </div>
+                <div class="relative">
+                    <div class="transition-colors duration-300 dark:bg-gray-700 bg-white rounded-xl p-6 shadow-lg text-center">
+                        <div class="w-16 h-16 rounded-full transition-colors duration-300 dark:bg-blue-500 bg-blue-600 flex items-center justify-center mx-auto mb-4">
+                            <span class="text-white font-bold text-xl">2</span>
+                        </div>
+                        <h4 class="text-xl font-semibold mb-3 transition-colors duration-300 dark:text-white text-gray-800">فهم السياق</h4>
+                        <p class="transition-colors duration-300 dark:text-gray-300 text-gray-600">يعالج NeuroX السياق العام والتفاصيل الدقيقة لفهم المقصود بشكل دقيق.</p>
+                    </div>
+                    <div class="hidden md:block h-2 w-full md:w-1/2 transition-colors duration-300 dark:bg-blue-500 bg-blue-600 absolute top-1/2 -right-1/4 z-0"></div>
+                </div>
+                <div class="relative">
+                    <div class="transition-colors duration-300 dark:bg-gray-700 bg-white rounded-xl p-6 shadow-lg text-center">
+                        <div class="w-16 h-16 rounded-full transition-colors duration-300 dark:bg-blue-500 bg-blue-600 flex items-center justify-center mx-auto mb-4">
+                            <span class="text-white font-bold text-xl">3</span>
+                        </div>
+                        <h4 class="text-xl font-semibold mb-3 transition-colors duration-300 dark:text-white text-gray-800">توليد المحتوى</h4>
+                        <p class="transition-colors duration-300 dark:text-gray-300 text-gray-600">يقوم بإنشاء محتوى مخصص ودقيق يلبي احتياجاتك المحددة بناءً على فهم عميق.</p>
+                    </div>
+                    <div class="hidden md:block h-2 w-full md:w-1/2 transition-colors duration-300 dark:bg-blue-500 bg-blue-600 absolute top-1/2 -right-1/4 z-0"></div>
+                </div>
+                <div class="relative">
+                    <div class="transition-colors duration-300 dark:bg-gray-700 bg-white rounded-xl p-6 shadow-lg text-center">
+                        <div class="w-16 h-16 rounded-full transition-colors duration-300 dark:bg-blue-500 bg-blue-600 flex items-center justify-center mx-auto mb-4">
+                            <span class="text-white font-bold text-xl">4</span>
+                        </div>
+                        <h4 class="text-xl font-semibold mb-3 transition-colors duration-300 dark:text-white text-gray-800">التحسين المستمر</h4>
+                        <p class="transition-colors duration-300 dark:text-gray-300 text-gray-600">يتعلم من التفاعلات ويحسن أداءه باستمرار، مما يؤدي إلى نتائج أفضل مع مرور الوقت.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section - قسم الأسئلة الشائعة -->
+    <section id="faq" class="py-20 transition-colors duration-300 dark:bg-gray-800 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h3 class="text-3xl font-bold mb-4 transition-colors duration-300 dark:text-white text-gray-800">الأسئلة الشائعة</h3>
+                <p class="text-lg max-w-3xl mx-auto transition-colors duration-300 dark:text-gray-300 text-gray-600">إجابات على الأسئلة الأكثر شيوعًا حول تقنية NeuroX والاشتراكات والخدمات.</p>
+            </div>
+            <div class="max-w-3xl mx-auto">
+                <div class="mb-6 transition-colors duration-300 dark:bg-gray-700 bg-gray-50 rounded-xl overflow-hidden shadow-md">
+                    <button class="faq-question w-full px-6 py-4 text-right transition-colors duration-300 dark:text-white text-gray-800 text-lg font-semibold focus:outline-none flex justify-between items-center">
+                        <i class="fas fa-chevron-down text-sm transition-colors duration-300 dark:text-gray-400 text-gray-600"></i>
+                        <span>متى سيتم إطلاق NeuroX رسميًا؟</span>
+                    </button>
+                    <div class="faq-answer px-6 py-4 transition-colors duration-300 dark:text-gray-300 text-gray-600 hidden">
+                        <p>سيتم إطلاق NeuroX رسميًا في 10 مارس 2025. نحن حاليًا في مرحلة الاختبار المغلق، ويمكنك الانضمام إلى قائمة الانتظار للحصول على وصول مبكر.</p>
+                    </div>
+                </div>
+                <div class="mb-6 transition-colors duration-300 dark:bg-gray-700 bg-gray-50 rounded-xl overflow-hidden shadow-md">
+                    <button class="faq-question w-full px-6 py-4 text-right transition-colors duration-300 dark:text-white text-gray-800 text-lg font-semibold focus:outline-none flex justify-between items-center">
+                        <i class="fas fa-chevron-down text-sm transition-colors duration-300 dark:text-gray-400 text-gray-600"></i>
+                        <span>ما الفرق بين NeuroX و NeuroX Pro؟</span>
+                    </button>
+                    <div class="faq-answer px-6 py-4 transition-colors duration-300 dark:text-gray-300 text-gray-600 hidden">
+                        <p>يوفر NeuroX Pro قدرات متقدمة إضافية مثل معالجة أكبر للبيانات، وتكامل أفضل مع الأنظمة الأخرى، وأداء أعلى في المهام المعقدة. كما يتضمن ميزات حصرية للشركات والمؤسسات الكبيرة.</p>
+                    </div>
+                </div>
+                <div class="mb-6 transition-colors duration-300 dark:bg-gray-700 bg-gray-50 rounded-xl overflow-hidden shadow-md">
+                    <button class="faq-question w-full px-6 py-4 text-right transition-colors duration-300 dark:text-white text-gray-800 text-lg font-semibold focus:outline-none flex justify-between items-center">
+                        <i class="fas fa-chevron-down text-sm transition-colors duration-300 dark:text-gray-400 text-gray-600"></i>
+                        <span>هل يدعم NeuroX اللغة العربية بالكامل؟</span>
+                    </button>
+                    <div class="faq-answer px-6 py-4 transition-colors duration-300 dark:text-gray-300 text-gray-600 hidden">
+                        <p>نعم، يدعم NeuroX اللغة العربية بشكل كامل وبدقة تتجاوز 99.8%، مع فهم عميق للسياقات الثقافية والاختلافات اللهجية في العالم العربي.</p>
+                    </div>
+                </div>
+                <div class="mb-6 transition-colors duration-300 dark:bg-gray-700 bg-gray-50 rounded-xl overflow-hidden shadow-md">
+                    <button class="faq-question w-full px-6 py-4 text-right transition-colors duration-300 dark:text-white text-gray-800 text-lg font-semibold focus:outline-none flex justify-between items-center">
+                        <i class="fas fa-chevron-down text-sm transition-colors duration-300 dark:text-gray-400 text-gray-600"></i>
+                        <span>ما هي خيارات الاشتراك المتاحة؟</span>
+                    </button>
+                    <div class="faq-answer px-6 py-4 transition-colors duration-300 dark:text-gray-300 text-gray-600 hidden">
+                        <p>سنوفر خطط اشتراك متنوعة تشمل: الخطة المجانية (مع ميزات أساسية)، الخطة الشخصية، والخطة المهنية، بالإضافة إلى خطط مخصصة للشركات. سيتم الإعلان عن التفاصيل والأسعار مع الإطلاق الرسمي.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Model Information Section - قسم معلومات النموذج -->
+    <section class="py-20 transition-colors duration-300 dark:bg-gray-900 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="w-full transition-colors duration-300 dark:bg-gradient-to-r dark:from-gray-800 dark:to-gray-700 bg-gradient-to-r from-blue-50 to-white rounded-3xl shadow-2xl p-8 border transition-colors duration-300 dark:border-blue-400/20 border-blue-200/50">
+                <h3 class="text-4xl font-bold text-center mb-8 transition-colors duration-300 dark:text-blue-400 text-blue-600">نموذج NeuroX: ثورة في عالم الذكاء الاصطناعي</h3>
+                <div class="space-y-6 transition-colors duration-300 dark:text-gray-200 text-gray-700 text-lg leading-relaxed">
+                    <p class="text-center mb-8">يسرنا الإعلان عن موعد إطلاق نموذج NeuroX في <span class="transition-colors duration-300 dark:text-blue-400 text-blue-600 font-bold">10 مارس 2025</span></p>
+                    
+                    <div class="transition-colors duration-300 dark:bg-gray-800/50 bg-blue-50 rounded-xl p-6 mb-6">
+                        <h4 class="text-2xl font-bold transition-colors duration-300 dark:text-blue-300 text-blue-600 mb-4">قوة معالجة غير مسبوقة</h4>
+                        <p>تم تدريب نموذج NeuroX على أكثر من <span class="transition-colors duration-300 dark:text-blue-400 text-blue-600 font-bold">2 تريليون</span> نقطة بيانات، مما يجعله أحد أكبر وأقوى نماذج الذكاء الاصطناعي في العالم. يغطي التدريب مجموعة واسعة من المجالات والتخصصات، مما يمنح النموذج فهماً عميقاً وشاملاً للمعرفة البشرية.</p>
+                    </div>
+
+                    <div class="transition-colors duration-300 dark:bg-gray-800/50 bg-blue-50 rounded-xl p-6 mb-6">
+                        <h4 class="text-2xl font-bold transition-colors duration-300 dark:text-blue-300 text-blue-600 mb-4">قدرات متقدمة</h4>
+                        <p>يتميز النموذج بقدرته الفائقة على:</p>
+                        <ul class="list-disc list-inside space-y-2 mt-3 mr-6">
+                            <li>معالجة وفهم اللغة العربية بدقة تفوق 99.8%</li>
+                            <li>تحليل وتوليد المحتوى بذكاء يحاكي الفهم البشري</li>
+                            <li>التعامل مع المهام المعقدة والمتعددة التخصصات</li>
+                            <li>تقديم حلول مبتكرة للمشكلات المعقدة</li>
+                            <li>التعلم المستمر وتحسين الأداء مع كل استخدام</li>
+                        </ul>
+                    </div>
+
+                    <div class="transition-colors duration-300 dark:bg-gray-800/50 bg-blue-50 rounded-xl p-6">
+                        <h4 class="text-2xl font-bold transition-colors duration-300 dark:text-blue-300 text-blue-600 mb-4">مستقبل الذكاء الاصطناعي</h4>
+                        <p>يمثل NeuroX نقلة نوعية في عالم الذكاء الاصطناعي، حيث يجمع بين القوة الحاسوبية الهائلة والفهم العميق للغة والسياق. تم تطويره باستخدام أحدث تقنيات التعلم العميق والمعالجة اللغوية الطبيعية، مما يجعله مثالياً للاستخدامات المؤسسية والبحثية المتقدمة.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section - قسم دعوة العمل -->
+    <section class="py-20 transition-colors duration-300 dark:bg-blue-600 bg-blue-500 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full opacity-10">
+            <div class="absolute top-0 left-0 w-40 h-40 bg-white rounded-full mix-blend-overlay filter blur-3xl"></div>
+            <div class="absolute bottom-0 right-0 w-40 h-40 bg-white rounded-full mix-blend-overlay filter blur-3xl"></div>
+        </div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center">
+                <h3 class="text-4xl font-bold text-white mb-6">انضم إلى مستقبل الذكاء الاصطناعي اليوم</h3>
+                <p class="text-xl text-white/90 mb-10 max-w-3xl mx-auto">كن من أوائل المستفيدين من تقنية NeuroX المتطورة وانضم إلى قائمة الانتظار للحصول على وصول مبكر.</p>
+                <div class="flex justify-center space-x-4 space-x-reverse">
+                    <button id="ctaSignupBtn" class="bg-white text-blue-600 px-8 py-3 rounded-full hover:bg-blue-50 transition transform hover:scale-105 btn-hover-effect auth-button text-lg font-semibold">سجل الآن</button>
+                    <button id="ctaLearnMoreBtn" class="bg-transparent text-white border-2 border-white px-8 py-3 rounded-full hover:bg-white/10 transition transform hover:scale-105 btn-hover-effect text-lg font-semibold">تعرف على المزيد</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Authentication Modal - نافذة المصادقة -->
+    <div id="authModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-gray-800 p-8 rounded-lg shadow-xl max-w-md w-full transform scale-95 transition-all">
+            <div class="flex justify-between items-center mb-6">
+                <h3 id="modalTitle" class="text-2xl font-bold text-blue-400">تسجيل الدخول</h3>
+                <button id="closeModal" class="text-gray-400 hover:text-white transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <form id="authForm" class="space-y-6">
+                <div class="relative">
+                    <label for="email" class="block text-sm font-medium text-gray-300 mb-2">البريد الإلكتروني</label>
+                    <input type="email" id="email" class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 text-white input-focus-effect transition-all duration-300" required>
+                    <div class="email-validation-icon absolute right-3 top-10 hidden">
+                        <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="relative">
+                    <label for="password" class="block text-sm font-medium text-gray-300 mb-2">كلمة المرور</label>
+                    <input type="password" id="password" class="w-full px-4 py-3 pr-12 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 text-white input-focus-effect transition-all duration-300" required>
+                    <button type="button" class="toggle-password absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-300 transition-colors duration-200">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="flex justify-between items-center">
+                    <button type="button" id="forgotPassword" class="text-sm text-blue-400 hover:text-blue-300 transition-colors duration-200 flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path>
+                        </svg>
+                        نسيت كلمة المرور؟
+                    </button>
+                </div>
+                <button type="submit" id="authSubmit" class="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition transform hover:scale-105 btn-hover-effect shadow-lg flex items-center justify-center space-x-2 space-x-reverse">
+                    <span>تسجيل الدخول</span>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
+                    </svg>
+                </button>
+                <div class="relative my-6 text-center">
+                    <hr class="border-gray-600">
+                    <span class="text-gray-400 bg-gray-800 px-4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">أو</span>
+                </div>
+                <button type="button" onclick="authUtils.signInWithGoogle()" class="w-full bg-white text-gray-700 py-3 rounded-lg hover:bg-gray-100 transition transform hover:scale-105 btn-hover-effect shadow-lg flex items-center justify-center space-x-2 space-x-reverse">
+                    <img src="https://www.google.com/favicon.ico" alt="Google" class="w-5 h-5">
+                    <span>تسجيل الدخول عبر Google</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Password Reset Modal - نافذة إعادة تعيين كلمة المرور -->
+    <div id="resetPasswordModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-gray-800 p-8 rounded-lg shadow-xl max-w-md w-full transform scale-95 transition-all">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-blue-400">إعادة تعيين كلمة المرور</h3>
+                <button id="closeResetModal" class="text-gray-400 hover:text-white transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="mb-6">
+                <div class="bg-gray-700 p-4 rounded-lg mb-6">
+                    <div class="flex items-center text-yellow-400 mb-2">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span class="font-semibold">تعليمات مهمة</span>
+                    </div>
+                    <p class="text-gray-300 text-sm">سيتم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني. يرجى التحقق من صندوق الوارد والبريد غير المرغوب فيه.</p>
+                </div>
+            </div>
+            <form id="resetPasswordForm" class="space-y-6">
+                <div class="relative">
+                    <label for="resetEmail" class="block text-sm font-medium text-gray-300 mb-2">البريد الإلكتروني</label>
+                    <input type="email" id="resetEmail" class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 text-white input-focus-effect transition-all duration-300" required>
+                    <div class="email-validation-icon absolute right-3 top-10 hidden">
+                        <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                </div>
+                <button type="submit" class="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition transform hover:scale-105 btn-hover-effect shadow-lg flex items-center justify-center space-x-2 space-x-reverse">
+                    <span>إرسال رابط إعادة التعيين</span>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                    </svg>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Waitlist Modal - نافذة قائمة الانتظار -->
+    <div id="waitlistModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-gray-800 p-8 rounded-lg shadow-xl max-w-md w-full transform scale-95 transition-all">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-blue-400">انضم إلى قائمة الانتظار</h3>
+                <button id="closeWaitlist" class="text-gray-400 hover:text-white transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <p class="text-gray-300 mb-6">كن من أوائل المستخدمين للوصول إلى تقنية NeuroX المتطورة.</p>
+            <form id="waitlistForm" class="space-y-6">
+                <div>
+                    <label for="waitlistEmail" class="block text-sm font-medium text-gray-300 mb-2">البريد الإلكتروني</label>
+                    <input type="email" id="waitlistEmail" class="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 text-white input-focus-effect" required>
+                </div>
+                <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition transform hover:scale-105 btn-hover-effect">انضم الآن</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Signup Modal - نافذة إنشاء الحساب -->
+    <div id="signupModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-gray-800 p-8 rounded-lg shadow-xl max-w-md w-full transform scale-95 transition-all">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-blue-400">إنشاء حساب جديد</h3>
+                <button id="closeSignupModal" class="text-gray-400 hover:text-white transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <form id="signupForm" class="space-y-4">
+                <div class="relative">
+                    <label for="username" class="block text-sm font-medium text-gray-300 mb-2">اسم المستخدم</label>
+                    <input type="text" id="username" class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 text-white input-focus-effect transition-all duration-300" required>
+                </div>
+                <div class="relative">
+                    <label for="signupEmail" class="block text-sm font-medium text-gray-300 mb-2">البريد الإلكتروني</label>
+                    <input type="email" id="signupEmail" class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 text-white input-focus-effect transition-all duration-300" required>
+                    <div class="email-validation-icon absolute right-3 top-10 hidden">
+                        <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="relative">
+                    <label for="signupPassword" class="block text-sm font-medium text-gray-300 mb-2">كلمة المرور</label>
+                    <input type="password" id="signupPassword" class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 text-white input-focus-effect transition-all duration-300" required>
+                    <button type="button" class="toggle-password absolute right-3 top-10 text-gray-400 hover:text-gray-300 transition-colors duration-200">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="relative">
+                    <label for="confirmPassword" class="block text-sm font-medium text-gray-300 mb-2">تأكيد كلمة المرور</label>
+                    <input type="password" id="confirmPassword" class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 text-white input-focus-effect transition-all duration-300" required>
+                </div>
+                <div class="password-strength hidden">
+                    <div class="flex justify-between mb-1">
+                        <span class="text-xs text-gray-400">قوة كلمة المرور:</span>
+                        <span class="text-xs password-strength-text"></span>
+                    </div>
+                    <div class="h-1 bg-gray-700 rounded-full overflow-hidden">
+                        <div class="password-strength-bar h-full w-0 transition-all duration-300"></div>
+                    </div>
+                </div>
+                <button type="submit" class="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition transform hover:scale-105 btn-hover-effect shadow-lg flex items-center justify-center space-x-2 space-x-reverse mt-6">
+                    <span>إنشاء الحساب</span>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+                    </svg>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTop" class="fixed bottom-8 right-8 transition-colors duration-300 dark:bg-blue-500 bg-blue-600 text-white p-3 rounded-full shadow-lg opacity-0 transition-opacity duration-300 hover:bg-blue-600 dark:hover:bg-blue-700 hidden">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+        </svg>
+    </button>
+
+    <!-- Help Icon with Request Status -->
+    <div class="fixed bottom-8 left-8 z-50">
+        <button id="helpIcon" class="transition-colors duration-300 dark:bg-gray-700 bg-gray-200 dark:text-blue-400 text-blue-600 p-3 rounded-full shadow-lg hover:bg-gray-600 dark:hover:bg-gray-600 transition-colors duration-300">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+        </button>
+        <div id="requestStatus" class="hidden absolute bottom-16 left-0 transition-colors duration-300 dark:bg-gray-800 bg-white p-4 rounded-lg shadow-xl w-72">
+            <h4 class="transition-colors duration-300 dark:text-blue-400 text-blue-600 font-semibold mb-2">حالة طلبات الوصول</h4>
+            <p class="transition-colors duration-300 dark:text-gray-300 text-gray-600 text-sm mb-2">يتم حالياً مراجعة العديد من طلبات الوصول من المستخدمين.</p>
+            <p class="transition-colors duration-300 dark:text-gray-300 text-gray-600 text-sm">لا تقلق، سيتم إخطارك فور قبول طلبك للوصول إلى النموذج. عادةً ما تستغرق العملية 24-48 ساعة.</p>
+        </div>
+    </div>
+
+    <!-- Footer - التذييل -->
+    <footer class="transition-colors duration-300 dark:bg-gray-800 bg-gray-100 py-10">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h4 class="text-lg font-bold mb-4 transition-colors duration-300 dark:text-white text-gray-800">عن NeurophiX AI</h4>
+                    <p class="transition-colors duration-300 dark:text-gray-400 text-gray-600">نقدم أحدث حلول الذكاء الاصطناعي المتطورة للمؤسسات والأفراد حول العالم.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4 transition-colors duration-300 dark:text-white text-gray-800">روابط سريعة</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#features" class="transition-colors duration-300 dark:text-gray-400 text-gray-600 hover:text-blue-500 dark:hover:text-blue-400">المميزات</a></li>
+                        <li><a href="#comparison" class="transition-colors duration-300 dark:text-gray-400 text-gray-600 hover:text-blue-500 dark:hover:text-blue-400">المقارنة</a></li>
+                        <li><a href="#how-it-works" class="transition-colors duration-300 dark:text-gray-400 text-gray-600 hover:text-blue-500 dark:hover:text-blue-400">كيف يعمل</a></li>
+                        <li><a href="#faq" class="transition-colors duration-300 dark:text-gray-400 text-gray-600 hover:text-blue-500 dark:hover:text-blue-400">الأسئلة الشائعة</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4 transition-colors duration-300 dark:text-white text-gray-800">تواصل معنا</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-2 transition-colors duration-300 dark:text-gray-400 text-gray-600"></i>
+                            <a href="mailto:info@neurophix.ai" class="transition-colors duration-300 dark:text-gray-400 text-gray-600 hover:text-blue-500 dark:hover:text-blue-400">info@neurophix.ai</a>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone mr-2 transition-colors duration-300 dark:text-gray-400 text-gray-600"></i>
+                            <a href="tel:+1234567890" class="transition-colors duration-300 dark:text-gray-400 text-gray-600 hover:text-blue-500 dark:hover:text-blue-400">+123 456 7890</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4 transition-colors duration-300 dark:text-white text-gray-800">تابعنا</h4>
+                    <div class="flex space-x-4 space-x-reverse">
+                        <a href="#" class="transition-colors duration-300 dark:text-gray-400 text-gray-600 hover:text-blue-500 dark:hover:text-blue-400 text-xl">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="transition-colors duration-300 dark:text-gray-400 text-gray-600 hover:text-blue-500 dark:hover:text-blue-400 text-xl">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="#" class="transition-colors duration-300 dark:text-gray-400 text-gray-600 hover:text-blue-500 dark:hover:text-blue-400 text-xl">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" class="transition-colors duration-300 dark:text-gray-400 text-gray-600 hover:text-blue-500 dark:hover:text-blue-400 text-xl">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <hr class="transition-colors duration-300 dark:border-gray-700 border-gray-200 mb-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <p class="transition-colors duration-300 dark:text-gray-400 text-gray-600">© 2025 NeurophiX AI. جميع الحقوق محفوظة.</p>
+                <div class="flex space-x-6 space-x-reverse mt-4 md:mt-0">
+                    <a href="#" class="transition-colors duration-300 dark:text-gray-400 text-gray-600 hover:text-blue-500 dark:hover:text-blue-400">سياسة الخصوصية</a>
+                    <a href="#" class="transition-colors duration-300 dark:text-gray-400 text-gray-600 hover:text-blue-500 dark:hover:text-blue-400">شروط الاستخدام</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- تضمين script.js -->
+    <script src="script.js"></script>
+
+    <!-- استدعاء الوظائف عند تحميل الصفحة -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("تم تحميل الصفحة بنجاح!");
+            // إعداد القائمة المحمولة
+            setupMobileMenu();
+            // إعداد زر تبديل الثيم
+            setupThemeToggle();
+            // التحقق من حالة تسجيل الدخول
+            try {
+                // استدعاء الدالة فقط إذا كانت موجودة
+                if (typeof updateHeaderUI === 'function') {
+                    updateHeaderUI(auth.currentUser);
+                }
+                
+                if (typeof updateBetaInfoCardContent === 'function') {
+                    updateBetaInfoCardContent();
+                }
+                
+                if (typeof updateMobileAuthUI === 'function') {
+                    updateMobileAuthUI();
+                }
+            } catch (error) {
+                console.log("لم نتمكن من تحديث واجهة المستخدم:", error);
+            }
+        });
+    </script>
+</body>
+</html>
